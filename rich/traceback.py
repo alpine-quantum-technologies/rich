@@ -43,6 +43,7 @@ WINDOWS = platform.system() == "Windows"
 
 LOCALS_MAX_LENGTH = 10
 LOCALS_MAX_STRING = 80
+LOCALS_MAX_DEPTH = 3
 
 
 def install(
@@ -223,6 +224,7 @@ class Traceback:
         locals_max_length (int, optional): Maximum length of containers before abbreviating, or None for no abbreviation.
             Defaults to 10.
         locals_max_string (int, optional): Maximum length of string before truncating, or None to disable. Defaults to 80.
+        locals_max_depth (int, optional): Maximal depth of objects before truncating, or None to disable. Defaults to 3.
         locals_hide_dunder (bool, optional): Hide locals prefixed with double underscore. Defaults to True.
         locals_hide_sunder (bool, optional): Hide locals prefixed with single underscore. Defaults to False.
         suppress (Sequence[Union[str, ModuleType]]): Optional sequence of modules or paths to exclude from traceback.
@@ -249,6 +251,7 @@ class Traceback:
         show_locals: bool = False,
         locals_max_length: int = LOCALS_MAX_LENGTH,
         locals_max_string: int = LOCALS_MAX_STRING,
+        locals_max_depth: int = LOCALS_MAX_DEPTH,
         locals_hide_dunder: bool = True,
         locals_hide_sunder: bool = False,
         indent_guides: bool = True,
@@ -273,6 +276,7 @@ class Traceback:
         self.indent_guides = indent_guides
         self.locals_max_length = locals_max_length
         self.locals_max_string = locals_max_string
+        self.locals_max_depth = locals_max_depth
         self.locals_hide_dunder = locals_hide_dunder
         self.locals_hide_sunder = locals_hide_sunder
 
@@ -303,6 +307,7 @@ class Traceback:
         show_locals: bool = False,
         locals_max_length: int = LOCALS_MAX_LENGTH,
         locals_max_string: int = LOCALS_MAX_STRING,
+        locals_max_depth: int = LOCALS_MAX_DEPTH,
         locals_hide_dunder: bool = True,
         locals_hide_sunder: bool = False,
         indent_guides: bool = True,
@@ -324,6 +329,7 @@ class Traceback:
             locals_max_length (int, optional): Maximum length of containers before abbreviating, or None for no abbreviation.
                 Defaults to 10.
             locals_max_string (int, optional): Maximum length of string before truncating, or None to disable. Defaults to 80.
+            locals_max_depth (int, optional): Maximal depth of objects before truncating, or None to disable. Defaults to 3.
             locals_hide_dunder (bool, optional): Hide locals prefixed with double underscore. Defaults to True.
             locals_hide_sunder (bool, optional): Hide locals prefixed with single underscore. Defaults to False.
             suppress (Iterable[Union[str, ModuleType]]): Optional sequence of modules or paths to exclude from traceback.
@@ -339,6 +345,7 @@ class Traceback:
             show_locals=show_locals,
             locals_max_length=locals_max_length,
             locals_max_string=locals_max_string,
+            locals_max_depth=locals_max_depth,
             locals_hide_dunder=locals_hide_dunder,
             locals_hide_sunder=locals_hide_sunder,
         )
@@ -353,6 +360,7 @@ class Traceback:
             indent_guides=indent_guides,
             locals_max_length=locals_max_length,
             locals_max_string=locals_max_string,
+            locals_max_depth=locals_max_depth,
             locals_hide_dunder=locals_hide_dunder,
             locals_hide_sunder=locals_hide_sunder,
             suppress=suppress,
@@ -369,6 +377,7 @@ class Traceback:
         show_locals: bool = False,
         locals_max_length: int = LOCALS_MAX_LENGTH,
         locals_max_string: int = LOCALS_MAX_STRING,
+        locals_max_depth: int = LOCALS_MAX_DEPTH,
         locals_hide_dunder: bool = True,
         locals_hide_sunder: bool = False,
     ) -> Trace:
@@ -382,6 +391,7 @@ class Traceback:
             locals_max_length (int, optional): Maximum length of containers before abbreviating, or None for no abbreviation.
                 Defaults to 10.
             locals_max_string (int, optional): Maximum length of string before truncating, or None to disable. Defaults to 80.
+            locals_max_depth (int, optional): Maximal depth of objects before truncating, or None to disable. Defaults to 3.
             locals_hide_dunder (bool, optional): Hide locals prefixed with double underscore. Defaults to True.
             locals_hide_sunder (bool, optional): Hide locals prefixed with single underscore. Defaults to False.
 
@@ -451,6 +461,7 @@ class Traceback:
                             value,
                             max_length=locals_max_length,
                             max_string=locals_max_string,
+                            max_depth=locals_max_depth,
                         )
                         for key, value in get_locals(frame_summary.f_locals.items())
                     }
@@ -625,6 +636,7 @@ class Traceback:
                     indent_guides=self.indent_guides,
                     max_length=self.locals_max_length,
                     max_string=self.locals_max_string,
+                    max_depth=self.locals_max_depth,
                 )
 
         exclude_frames: Optional[range] = None
