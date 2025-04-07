@@ -653,6 +653,12 @@ def traverse(
             class_name = obj.__class__.__name__
 
             if args:
+                if max_length is not None:
+                    remaining = len(args) - max_length
+                    args = args[:max_length]
+                else:
+                    remaining = 0
+
                 children = []
                 append = children.append
 
@@ -681,14 +687,16 @@ def traverse(
                         if _safe_isinstance(arg, tuple):
                             key, child = arg
                             child_node = _traverse(child, depth=depth + 1)
-                            child_node.last = last
+                            child_node.last = last and remaining == 0
                             child_node.key_repr = key
                             child_node.key_separator = "="
                             append(child_node)
                         else:
                             child_node = _traverse(arg, depth=depth + 1)
-                            child_node.last = last
+                            child_node.last = last and remaining == 0
                             append(child_node)
+                    if max_length is not None and remaining > 0:
+                        append(Node(value_repr=f"... +{remaining}", last=True))
             else:
                 node = Node(
                     value_repr=f"<{class_name}>" if angular else f"{class_name}()",
