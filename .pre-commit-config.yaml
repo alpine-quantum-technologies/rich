@@ -20,7 +20,6 @@ repos:
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.10.0
     hooks:
-      - id: python-check-mock-methods
       - id: python-no-log-warn
       - id: python-use-type-annotations
       - id: rst-directive-colons
@@ -30,8 +29,8 @@ repos:
     hooks:
       - id: pycln
         args: [--all]
-  - repo: https://github.com/psf/black
-    rev: 23.7.0
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 23.11.0
     hooks:
       - id: black
         exclude: ^benchmarks/
